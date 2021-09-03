@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: ["CREATE_INFRA"]
     types:
-      - complete
+      - completed
 
 jobs:
   CONFIGURE_CLUSTER:
