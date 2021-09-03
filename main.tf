@@ -12,7 +12,7 @@ locals {
 module "networking" {
 
   source              = "github.com/ealmeidaneto/terraform-aws-networking"
-  vpc_name            = "vpc-data"
+  vpc_name            = "vpc-golang-web"
   environment         = local.environment
   azs                 = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   public_ip_on_launch = "true"
@@ -60,10 +60,7 @@ module "eks_nodes_data" {
     min_size     = 3
   }]
 
-  labels = {
-    "agentpool"                  = "data",
-    "common.k8s.elastic.co/type" = "elasticsearch"
-  }
+  
 
   depends_on = [module.networking, module.eks_master]
 }
