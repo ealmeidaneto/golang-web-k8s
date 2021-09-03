@@ -1,4 +1,4 @@
-name: "Terraform"
+name: CREATE_INFRA
 
 on:
   push:
