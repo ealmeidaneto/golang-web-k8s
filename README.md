@@ -51,3 +51,11 @@ a second pipeline which is responsible for configuring the following add-ons:
 
 1. [terraform.yaml](.github/workflows/terraform.yaml) Workflow responsible for creating AWS infra.
 2. [configure-eks.yaml](.github/workflows/configure-eks.yaml) Workflow responsible for installing EKS add-ons.
+
+## Configuring GitHub Actions Workflows
+
+The workflow needs three secrets in order to work: 
+
+- TF_API_TOKEN: Token used to connect to Terraform Cloud
+- AWS_ACCESS_KEY_ID: Access key used by AWS CLI
+- AWS_SECRET_ACCESS_KEY: Secret key used by AWS CLI
