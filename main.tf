@@ -5,8 +5,8 @@ provider "aws" {
 }
 
 locals {
-  cluster_name = "eks-cluster-elasticsearch"
-  environment = "task"
+  cluster_name = "eks-cluster-golang-web"
+  environment  = "task"
 }
 
 module "networking" {
@@ -24,7 +24,7 @@ module "networking" {
   tags = {
 
     "kubernetes.io/cluster/${local.cluster_name}-${local.environment}" = "shared"
-    "kubernetes.io/role/elb"                      = "1"
+    "kubernetes.io/role/elb"                                           = "1"
   }
 
 }
@@ -46,13 +46,13 @@ module "eks_master" {
 }
 
 module "eks_nodes_data" {
-  source             = "github.com/ealmeidaneto/terraform-aws-eks-node"
-  cluster_name    = module.eks_master.cluster_name
-  node_group_name = "node-group-01"
-  subnet_ids      = module.networking.private_subnets
-  instance_types  = ["t3.medium"]
-  create_node_iam = true
-	create_cluster_autoscaler = true
+  source                    = "github.com/ealmeidaneto/terraform-aws-eks-node"
+  cluster_name              = module.eks_master.cluster_name
+  node_group_name           = "node-group-01"
+  subnet_ids                = module.networking.private_subnets
+  instance_types            = ["t3.medium"]
+  create_node_iam           = true
+  create_cluster_autoscaler = true
 
   scaling_config = [{
     desired_size = 3
@@ -61,7 +61,7 @@ module "eks_nodes_data" {
   }]
 
   labels = {
-    "agentpool" = "data",
+    "agentpool"                  = "data",
     "common.k8s.elastic.co/type" = "elasticsearch"
   }
 
