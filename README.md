@@ -24,6 +24,40 @@ a second pipeline which is responsible for configuring the following add-ons:
 - Cert-Manager
 - Cert-Manager Issuers(Prod/Staging)
 
+## Solution Explanation
+
+Cert-manager is a native Kubernetes certificate management controller. It can help with issuing certificates from a variety of sources, such as Let’s Encrypt, HashiCorp Vault, Venafi, a simple signing keypair, or self signed.
+
+It will ensure certificates are valid and up to date, and attempt to renew certificates at a configured time before expiry.
+
+The sub-component ingress-shim watches Ingress resources across the cluster. If it observes an Ingress with a supported annotation, it will ensure a Certificate resource with the name provided in the tls.secretName field and configured as described on the Ingress exists.
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    # add an annotation indicating the issuer to use.
+    cert-manager.io/cluster-issuer: nameOfClusterIssuer
+  name: myIngress
+  namespace: myIngress
+spec:
+  rules:
+  - host: example.com
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: myservice
+            port:
+              number: 80
+  tls: # < placing a host in the TLS config will determine what ends up in the cert's subjectAltNames
+  - hosts:
+    - example.com
+    secretName: myingress-cert # < cert-manager will store the created certificate in this secret.
+```
 
 ## Technologies Used
 
